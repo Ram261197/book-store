@@ -1,8 +1,7 @@
 FROM node:24-alpine3.21 AS build
 WORKDIR /app 
 COPY . .
-RUN npm install
-RUN npm run build 
+RUN npm install &&  npm run build 
 
 # Serving the app with nginx
 FROM nginx:alpine

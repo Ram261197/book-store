@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-import { PORT, mongoDBURL } from './config.js';
+import { BACKEND_PORT, MONGODB_URL, FRONTEND_URL  } from './config.js';
 import mongoose from 'mongoose';
 import booksRoute from './routes/booksRoute.js';
 import cors from 'cors';
@@ -10,14 +10,12 @@ const app = express();
 
 // Middleware for parsing request body
 app.use(express.json());
-
+app.use(cors());
 // Middleware for handling CORS POLICY
 // Option 1: Allow All Origins with Default of cors(*)
-app.use(cors());
-// Option 2: Allow Custom Origins
 // app.use(
 //   cors({
-//     origin: 'http://localhost:3000',
+//     origin: process.env.FRONTEND_URL,
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //     allowedHeaders: ['Content-Type'],
 //   })
@@ -31,11 +29,11 @@ app.get('/', (request, response) => {
 app.use('/books', booksRoute);
 
 mongoose
-  .connect(mongoDBURL)
+  .connect(MONGODB_URL)
   .then(() => {
     console.log('App connected to database');
-    app.listen(PORT, () => {
-      console.log(`App is listening to port: ${PORT}`);
+    app.listen(BACKEND_PORT, () => {
+      console.log(`App is listening to port: ${BACKEND_PORT}`);
     });
   })
   .catch((error) => {

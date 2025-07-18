@@ -4,7 +4,7 @@ import Spinner from '../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-
+ 
 const CreateBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -12,7 +12,7 @@ const CreateBooks = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-
+ 
   const handleSaveBook = () => {
     const data = {
       title,
@@ -20,8 +20,9 @@ const CreateBooks = () => {
       publishYear,
     };
     setLoading(true);
+    const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
     axios
-      .post('http://localhost:5555/books', data)
+      .post(`${backendUrl}/books`, data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created successfully', { variant: 'success' });
@@ -34,7 +35,7 @@ const CreateBooks = () => {
         console.log(error);
       });
   };
-
+ 
   return (
     <div className='p-4'>
       <BackButton />
@@ -75,5 +76,5 @@ const CreateBooks = () => {
     </div>
   );
 }
-
+ 
 export default CreateBooks

@@ -16,7 +16,8 @@ const EditBook = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5555/books/${id}`)
+    const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+    axios.get(`${backendUrl}/books/${id}`)
     .then((response) => {
         setAuthor(response.data.author);
         setPublishYear(response.data.publishYear)
@@ -36,8 +37,9 @@ const EditBook = () => {
       publishYear,
     };
     setLoading(true);
+    const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
     axios
-      .put(`http://localhost:5555/books/${id}`, data)
+      .put(`${backendUrl}/books/${id}`, data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Edited successfully', { variant: 'success' });
@@ -45,7 +47,7 @@ const EditBook = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
+        // alert('An error happened. Please Check console');
         enqueueSnackbar('Error', { variant: 'error' });
         console.log(error);
       });
